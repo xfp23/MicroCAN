@@ -12,9 +12,10 @@
 #ifndef MICROCAN_TYPES_H
 #define MICROCAN_TYPES_H
 
-#include "MicroCAN_Conf.h"
+#include "string.h"
 #include "stdint.h"
 #include "stdbool.h"
+#include "stdlib.h"
 
 #ifdef __cplusplus
 extern "C"
@@ -46,6 +47,7 @@ typedef enum
 
 typedef enum
 {
+    MICROCAN_SIG_DEFAULT, // double
     MICROCAN_SIG_U8,
     MICROCAN_SIG_U16,
     MICROCAN_SIG_U32,

@@ -57,9 +57,7 @@ extern "C"
  * @retval MICROCAN_INVALID_PARAM  Invalid input parameter.
  * @retval MICROCAN_ERROR          Initialization failed.
  */
-extern MicroCAN_Status_t MicroCAN_Init(MicroCAN_Message_t *msg,
-                                       MicroCAN_Signal_t *sig,
-                                       size_t sig_num);
+extern MicroCAN_Status_t MicroCAN_Init(MicroCAN_Message_t *msg, const MicroCAN_Signal_t *sig);
 
 /**
  * @brief Set the value of a signal within a CAN message.
@@ -75,9 +73,7 @@ extern MicroCAN_Status_t MicroCAN_Init(MicroCAN_Message_t *msg,
  * @retval MICROCAN_INVALID_PARAM  Invalid input parameter.
  * @retval MICROCAN_INVALID_INDEX  Signal index out of range.
  */
-extern MicroCAN_Status_t MicroCAN_SetSignalValue(MicroCAN_Message_t *msg,
-                                                 void *value,
-                                                 size_t index);
+extern MicroCAN_Status_t MicroCAN_SetSignalValue(MicroCAN_Message_t *msg, const void *value, size_t index);
 
 /**
  * @brief Retrieve the value of a signal from a CAN message.
@@ -93,9 +89,7 @@ extern MicroCAN_Status_t MicroCAN_SetSignalValue(MicroCAN_Message_t *msg,
  * @retval MICROCAN_INVALID_PARAM  Invalid input parameter.
  * @retval MICROCAN_INVALID_INDEX  Signal index out of range.
  */
-extern MicroCAN_Status_t MicroCAN_GetSignalValue(const MicroCAN_Message_t *msg,
-                                                 void *value,
-                                                 size_t index);
+extern MicroCAN_Status_t MicroCAN_GetSignalValue(const MicroCAN_Message_t *msg, const void *value, size_t index);
 
 /**
  * @brief Pack signal values into the CAN frame data buffer.
@@ -118,12 +112,14 @@ extern MicroCAN_Status_t MicroCAN_Pack(MicroCAN_Message_t *msg);
  * registered signal values.
  *
  * @param msg Pointer to the message object.
+ * @param data CAN Receive Frame Data
+ * @param len CAN Receive Data Length
  *
  * @retval MICROCAN_OK             Unpacking completed successfully.
  * @retval MICROCAN_INVALID_PARAM  Invalid input parameter.
  * @retval MICROCAN_ERROR          Unpacking failed.
  */
-extern MicroCAN_Status_t MicroCAN_UnPack(MicroCAN_Message_t *msg);
+extern MicroCAN_Status_t MicroCAN_UnPack(MicroCAN_Message_t *msg, const uint8_t *data, size_t len);
 
 #ifdef __cplusplus
 }

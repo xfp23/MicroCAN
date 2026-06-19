@@ -9,16 +9,16 @@
         }                             \
     } while (0)
 
-#define CHECK_MSGSTA(msg)                      \
-    do                                         \
-    {                                          \
+#define CHECK_MSGSTA(msg)                       \
+    do                                          \
+    {                                           \
         if (msg->msg_sta != MICROCAN_MSGSTA_OK) \
-        {                                      \
-            return MICROCAN_REJECT_ERR;        \
-        }                                      \
+        {                                       \
+            return MICROCAN_REJECT_ERR;         \
+        }                                       \
     } while (0)
 
-MicroCAN_Status_t MicroCAN_Init(MicroCAN_Message_t *msg, MicroCAN_Signal_t *sig, size_t sig_num)
+MicroCAN_Status_t MicroCAN_Init(MicroCAN_Message_t *msg, const MicroCAN_Signal_t *sig)
 {
     CHECK_PARAM(msg);
     CHECK_PARAM(sig);
@@ -26,7 +26,7 @@ MicroCAN_Status_t MicroCAN_Init(MicroCAN_Message_t *msg, MicroCAN_Signal_t *sig,
 
     msg->signal = NULL;
 
-    if (msg->dlc <= sig_num)
+    if (msg->dlc <= msg->sig_num)
     {
         return MICROCAN_OVERDLC_ERR;
     }
@@ -42,9 +42,9 @@ MicroCAN_Status_t MicroCAN_SetSignalValue(MicroCAN_Message_t *msg, void *value, 
     CHECK_PARAM(value);
     CHECK_MSGSTA(msg);
 
-    if (msg->dlc <= index)
+    if (msg->sig_num <= index)
     {
-        return MICROCAN_OVERDLC_ERR;
+        return MICROCAN_BYTELEN_ERR;
     }
 
     if (msg->signal == NULL)
@@ -78,6 +78,10 @@ MicroCAN_Status_t MicroCAN_SetSignalValue(MicroCAN_Message_t *msg, void *value, 
         msg->signal[index].value = *((float *)(value));
         break;
 
+    case MICROCAN_SIG_DEFAULT:
+        msg->signal[index].value = *((double *)(value));
+        break;
+
     default:
 
         return MICROCAN_ERR;
@@ -86,15 +90,15 @@ MicroCAN_Status_t MicroCAN_SetSignalValue(MicroCAN_Message_t *msg, void *value, 
     return MICROCAN_OK;
 }
 
-MicroCAN_Status_t MicroCAN_GetSignalValue(const MicroCAN_Message_t *msg, void *value, size_t index)
+MicroCAN_Status_t MicroCAN_GetSignalValue(const MicroCAN_Message_t *msg, const void *value, size_t index)
 {
     CHECK_PARAM(msg);
     CHECK_PARAM(value);
     CHECK_MSGSTA(msg);
 
-    if (msg->dlc <= index)
+    if (msg->sig_num <= index)
     {
-        return MICROCAN_OVERDLC_ERR;
+        return MICROCAN_BYTELEN_ERR;
     }
 
     if (msg->signal == NULL)
@@ -126,6 +130,10 @@ MicroCAN_Status_t MicroCAN_GetSignalValue(const MicroCAN_Message_t *msg, void *v
 
     case MICROCAN_SIG_FLOAT:
         (*((float *)value)) = (float)msg->signal[index].value;
+        break;
+
+    case MICROCAN_SIG_DEFAULT:
+        (*((double *)value)) = (double)msg->signal[index].value;
         break;
 
     default:
@@ -224,13 +232,19 @@ MicroCAN_Status_t MicroCAN_Pack(MicroCAN_Message_t *msg)
     return MICROCAN_OK;
 }
 
-MicroCAN_Status_t MicroCAN_UnPack(MicroCAN_Message_t *msg)
+MicroCAN_Status_t MicroCAN_UnPack(MicroCAN_Message_t *msg, const uint8_t *data, size_t len)
 {
     CHECK_PARAM(msg);
     CHECK_MSGSTA(msg);
 
     if (msg->signal == NULL)
         return MICROCAN_ERR;
+
+    if (len > msg->dlc || len > 8)
+        return MICROCAN_ERR;
+
+    memset(msg->msg_data, 0, sizeof(msg->msg_data));
+    memcpy(msg->msg_data, data, len);
 
     for (uint16_t i = 0; i < msg->sig_num; i++)
     {
