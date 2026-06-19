@@ -29,6 +29,7 @@ typedef enum
     MICROCAN_OVERDLC_ERR,
     MICROCAN_BYTEORDER_ERR,
     MICROCAN_BYTELEN_ERR,
+    MICROCAN_REJECT_ERR,
 } MicroCAN_Status_t;
 
 typedef enum
@@ -55,25 +56,25 @@ typedef enum
 
 typedef struct
 {
-    uint16_t start_bits;
-    uint16_t length;
-    MicroCAN_ByteOrder_t byte_order;
-    bool is_signed; // 有无符号
-    float factor;   // 精度
-    float offset;   // 偏移
-    float Min;
-    float Max;
+    const uint16_t start_bits;
+    const uint16_t length;
+    const MicroCAN_ByteOrder_t byte_order;
+    const bool is_signed; // 有无符号
+    const float factor;   // 精度
+    const float offset;   // 偏移
+    const float Min;
+    const float Max;
 
     double value;    // 信号的值
-    MicroCAN_SigType_t type;
+    const MicroCAN_SigType_t type;
 } MicroCAN_Signal_t; // 一条信号所包含的信息
 
 typedef struct
 {
-    uint32_t msg_id;
-    MicroCAN_MsgSta_t msg_sta; 
-    uint8_t dlc;
-    uint16_t sig_num;
+    const uint32_t msg_id;
+    const MicroCAN_MsgSta_t msg_sta; 
+    const uint8_t dlc;
+    const uint16_t sig_num;
     MicroCAN_Signal_t *signal;
     uint8_t msg_data[8];
 } MicroCAN_Message_t; // 一条报文的数据结构
