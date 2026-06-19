@@ -11,9 +11,7 @@
 #ifndef MICROCAN_H
 #define MICROCAN_H
 
-#include "string.h"
-#include "stdint.h"
-#include "stdlib.h"
+#include "MicroCAN_types.h"
 
 #ifdef __cplusplus
 extern "C"
