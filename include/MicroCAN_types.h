@@ -21,17 +21,37 @@ extern "C"
 {
 #endif
 
-typedef enum 
+typedef enum
+{
+    MICROCAN_OK,
+    MICROCAN_ERR,
+    MICROCAN_PARAMERR,
+    MICROCAN_OVERDLC_ERR,
+    MICROCAN_BYTEORDER_ERR,
+    MICROCAN_BYTELEN_ERR,
+} MicroCAN_Status_t;
+
+typedef enum
 {
     MICROCAN_MSGSTA_OK,
     MICROCAN_MSGSTA_ERR,
-}MicroCAN_MsgSta_t;
+} MicroCAN_MsgSta_t;
 
-typedef enum 
+typedef enum
 {
     MICROCAN_BYTEORDER_INTEL,
     MICROCAN_BYTEORDER_MOTOROLA,
-}MicroCAN_ByteOrder_t;
+} MicroCAN_ByteOrder_t;
+
+typedef enum
+{
+    MICROCAN_SIG_U8,
+    MICROCAN_SIG_U16,
+    MICROCAN_SIG_U32,
+    MICROCAN_SIG_INT,
+    MICROCAN_SIG_FLOAT,
+    MICROCAN_SIG_DOUBLE,
+} MicroCAN_SigType_t; // 类型定义
 
 typedef struct
 {
@@ -39,23 +59,26 @@ typedef struct
     uint16_t length;
     MicroCAN_ByteOrder_t byte_order;
     bool is_signed; // 有无符号
-    float factor; // 精度
-    float offset; // 偏移
+    float factor;   // 精度
+    float offset;   // 偏移
     float Min;
     float Max;
 
-    double value; // 信号的值
-}MicroCAN_Signal_t; // 一条信号所包含的信息
+    double value;    // 信号的值
+    MicroCAN_SigType_t type;
+} MicroCAN_Signal_t; // 一条信号所包含的信息
 
-typedef struct 
+typedef struct
 {
     uint32_t msg_id;
-    MicroCAN_MsgSta_t msg_sta;
+    MicroCAN_MsgSta_t msg_sta; 
     uint8_t dlc;
     uint16_t sig_num;
-    MicroCAN_Signal_t *signal; // 难点，如果我想达成MicroCAN_CANPack(MicroCAN_Message_t*); 用户在外面可以自由赋值信号的话 msg.xxx_sig.value = xxx;但是好像做不到统一API达成这种的效果
+    MicroCAN_Signal_t *signal;
     uint8_t msg_data[8];
-}MicroCAN_Message_t; // 一条报文的数据结构
+} MicroCAN_Message_t; // 一条报文的数据结构
+
+
 
 #ifdef __cplusplus
 }
