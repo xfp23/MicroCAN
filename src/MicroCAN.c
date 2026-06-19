@@ -44,7 +44,7 @@ MicroCAN_Status_t MicroCAN_SetSignalValue(MicroCAN_Message_t *msg, void *value, 
 
     if (msg->sig_num <= index)
     {
-        return MICROCAN_BYTELEN_ERR;
+        return MICROCAN_INDEX_ERR;
     }
 
     if (msg->signal == NULL)
@@ -98,7 +98,7 @@ MicroCAN_Status_t MicroCAN_GetSignalValue(const MicroCAN_Message_t *msg, const v
 
     if (msg->sig_num <= index)
     {
-        return MICROCAN_BYTELEN_ERR;
+        return MICROCAN_INDEX_ERR;
     }
 
     if (msg->signal == NULL)

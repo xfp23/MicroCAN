@@ -270,6 +270,8 @@ HAL_CAN_Transmit(MicroCAN_GetFrameData(engine_msg), MicroCAN_GetMessageDLC(engin
 | `MICROCAN_OVERDLC_ERR` | 超出 DLC 范围 |
 | `MICROCAN_BYTEORDER_ERR` | 未知字节序 |
 | `MICROCAN_BYTELEN_ERR` | 信号位长度越界 |
+| `MICROCAN_INDEX_ERR` | 访问索引溢出 |
+| `MICROCAN_REJECT_ERR` | 报文状态出错，库拒绝操作 |
 
 ---
 

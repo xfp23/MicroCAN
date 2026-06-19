@@ -270,6 +270,8 @@ The `type` field on each signal controls the cast performed by `MicroCAN_SetSign
 | `MICROCAN_OVERDLC_ERR` | DLC exceeded |
 | `MICROCAN_BYTEORDER_ERR` | Unknown byte order |
 | `MICROCAN_BYTELEN_ERR` | Signal bit position out of range |
+| `MICROCAN_INDEX_ERR` | Access index overflow |
+| `MICROCAN_REJECT_ERR` | Message status error, operation refused |
 
 ---
 
