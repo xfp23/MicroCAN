@@ -1,6 +1,6 @@
 /**
  * @file MicroCAN_types.h
- * @author xfp23 (https://xfp23.github.io/)
+ * @author xfp23 (https://xfp23.github.io)
  * @brief MicroCAN Data structure definition
  * @version 0.1
  * @date 2026-06-19

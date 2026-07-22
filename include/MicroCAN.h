@@ -1,6 +1,6 @@
 /**
  * @file MicroCAN.h
- * @author xfp23 (https://xfp23.github.io/)
+ * @author xfp23 (https://xfp23.github.io)
  * @brief Lightweight CAN message packing and unpacking library.
  * @version 0.1
  * @date 2026-06-19
