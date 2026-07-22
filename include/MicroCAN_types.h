@@ -1,7 +1,7 @@
 /**
  * @file MicroCAN_types.h
- * @author xfp23
- * @brief
+ * @author xfp23 (https://xfp23.github.io/)
+ * @brief MicroCAN Data structure definition
  * @version 0.1
  * @date 2026-06-19
  *
@@ -48,29 +48,31 @@ typedef enum
 
 typedef enum
 {
-    MICROCAN_SIG_DEFAULT, // double
+    MICROCAN_SIG_DEFAULT,
     MICROCAN_SIG_U8,
     MICROCAN_SIG_U16,
     MICROCAN_SIG_U32,
     MICROCAN_SIG_INT,
+    MICROCAN_SIG_INT32,
+    MICROCAN_SIG_INT64,
     MICROCAN_SIG_FLOAT,
     MICROCAN_SIG_DOUBLE,
-} MicroCAN_SigType_t; // 类型定义
+} MicroCAN_SigType_t;
 
 typedef struct
 {
     const uint16_t start_bits;
     const uint16_t length;
     const MicroCAN_ByteOrder_t byte_order;
-    const bool is_signed; // 有无符号
-    const float factor;   // 精度
-    const float offset;   // 偏移
+    const bool is_signed;
+    const float factor;
+    const float offset;
     const float Min;
     const float Max;
 
-    double value;    // 信号的值
+    double value;
     const MicroCAN_SigType_t type;
-} MicroCAN_Signal_t; // 一条信号所包含的信息
+} MicroCAN_Signal_t;
 
 typedef struct
 {
@@ -80,11 +82,11 @@ typedef struct
     const uint16_t sig_num;
     MicroCAN_Signal_t *signal;
     uint8_t msg_data[8];
-} MicroCAN_Message_t; // 一条报文的数据结构
-
-
+} MicroCAN_Message_t;
 
 #ifdef __cplusplus
 }
 #endif
+
 #endif
+

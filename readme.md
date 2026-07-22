@@ -296,3 +296,4 @@ Unpack (raw → physical):   value = raw * factor + offset
 ## License
 
 Copyright (c) 2026 xfp23. All rights reserved.
+

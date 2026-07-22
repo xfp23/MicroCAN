@@ -36,7 +36,7 @@ MicroCAN_Status_t MicroCAN_Init(MicroCAN_Message_t *msg, const MicroCAN_Signal_t
     return MICROCAN_OK;
 }
 
-MicroCAN_Status_t MicroCAN_SetSignalValue(MicroCAN_Message_t *msg, void *value, size_t index)
+MicroCAN_Status_t MicroCAN_SetSignalValue(MicroCAN_Message_t *msg, const void *value, size_t index)
 {
     CHECK_PARAM(msg);
     CHECK_PARAM(value);
@@ -67,7 +67,12 @@ MicroCAN_Status_t MicroCAN_SetSignalValue(MicroCAN_Message_t *msg, void *value, 
         break;
 
     case MICROCAN_SIG_INT:
-        msg->signal[index].value = *((int *)(value));
+    case MICROCAN_SIG_INT32:
+        msg->signal[index].value = *((int32_t *)(value));
+        break;
+    
+    case MICROCAN_SIG_INT64:
+        msg->signal[index].value = *((int64_t*)(value));
         break;
 
     case MICROCAN_SIG_DOUBLE:
@@ -121,9 +126,13 @@ MicroCAN_Status_t MicroCAN_GetSignalValue(const MicroCAN_Message_t *msg, const v
         break;
 
     case MICROCAN_SIG_INT:
-        (*((int *)value)) = (int)msg->signal[index].value;
+    case MICROCAN_SIG_INT32:
+        (*((int32_t *)value)) = (int32_t)msg->signal[index].value;
         break;
 
+    case MICROCAN_SIG_INT64:
+        (*((int64_t *)value)) = (int64_t)msg->signal[index].value;
+        break;
     case MICROCAN_SIG_DOUBLE:
         (*((double *)value)) = (double)msg->signal[index].value;
         break;
@@ -170,10 +179,9 @@ MicroCAN_Status_t MicroCAN_Pack(MicroCAN_Message_t *msg)
         if (val < sig->Min)
             val = sig->Min;
 
-        // 物理值 = 原始值: raw = (value - offset) / factor
         int64_t raw;
         if (sig->factor == 0.0f)
-            return MICROCAN_ERR; // 防除零
+            return MICROCAN_ERR;
 
         if (sig->is_signed)
             raw = (int64_t)((val - sig->offset) / sig->factor);
@@ -292,10 +300,8 @@ MicroCAN_Status_t MicroCAN_UnPack(MicroCAN_Message_t *msg, const uint8_t *data, 
             return MICROCAN_BYTEORDER_ERR;
         }
 
-        // 有符号扩展
         if (sig->is_signed && (raw >> (sig->length - 1)) & 0x01)
         {
-            // 符号位为1，做符号扩展
             int64_t signed_raw = (int64_t)(raw | (~0ULL << sig->length));
             sig->value = (double)signed_raw * sig->factor + sig->offset;
         }
