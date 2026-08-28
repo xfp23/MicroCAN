@@ -78,6 +78,7 @@ typedef struct
 typedef struct
 {
     const uint32_t msg_id;
+    const bool is_extend;
     const MicroCAN_MsgSta_t msg_sta; 
     const uint8_t dlc;
     const uint16_t sig_num;

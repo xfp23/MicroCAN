@@ -43,6 +43,14 @@ extern "C"
 #define MicroCAN_GetMessageDLC(msg) ((msg).dlc)
 
 /**
+ * @brief Get the CAN Extend Flag
+ * 
+ * @param msg Message object
+ * @return Extend Flag of the message
+ * 
+ */
+#define MicroCAN_IsExtendFrame(msg) ((msg).is_extend) 
+/**
  * @brief Initialize a CAN message and register its signals.
  *
  * This function associates a signal table with a CAN message object.
