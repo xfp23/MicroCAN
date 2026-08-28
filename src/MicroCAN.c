@@ -70,9 +70,9 @@ MicroCAN_Status_t MicroCAN_SetSignalValue(MicroCAN_Message_t *msg, const void *v
     case MICROCAN_SIG_INT32:
         msg->signal[index].value = *((int32_t *)(value));
         break;
-    
+
     case MICROCAN_SIG_INT64:
-        msg->signal[index].value = *((int64_t*)(value));
+        msg->signal[index].value = *((int64_t *)(value));
         break;
 
     case MICROCAN_SIG_DOUBLE:
@@ -81,6 +81,10 @@ MicroCAN_Status_t MicroCAN_SetSignalValue(MicroCAN_Message_t *msg, const void *v
 
     case MICROCAN_SIG_FLOAT:
         msg->signal[index].value = *((float *)(value));
+        break;
+
+    case MICROCAN_SIG_U64:
+        msg->signal[index].value = *((uint64_t *)(value));
         break;
 
     case MICROCAN_SIG_DEFAULT:
@@ -132,6 +136,10 @@ MicroCAN_Status_t MicroCAN_GetSignalValue(const MicroCAN_Message_t *msg, const v
 
     case MICROCAN_SIG_INT64:
         (*((int64_t *)value)) = (int64_t)msg->signal[index].value;
+        break;
+
+    case MICROCAN_SIG_U64:
+        (*((uint64_t *)value)) = (uint64_t)msg->signal[index].value;
         break;
     case MICROCAN_SIG_DOUBLE:
         (*((double *)value)) = (double)msg->signal[index].value;
